@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="sins/MOMstyle.css" />
     <script src='sins/jquery.min.js'></script>
     <script src='sins/jquery-ui.min.js'></script>
-    <script src="sins/graph.ob.js"></script>
-    <script src="sins/graph_multiline_use.ob.js"></script>
+    <script src="graph.ob.js"></script>
+    <script src="graph_multiline_use.ob.js"></script>
 
     <script type="text/javascript" >
 
@@ -131,7 +131,6 @@
         var width=50;
         var flag=true;
         var step=0;
-        var step2=0;
         var x=0;
 
         function draw0() {
@@ -156,7 +155,10 @@
                     //piston
                     ctx.beginPath();
                     ctx.lineWidth = 1;
-                    ctx.rect(piston_x, piston_y + step, height, width);
+                    ctx.rect(piston_x, piston_y + P2, height, width);
+                    // ctx.rect(piston_x, piston_y + P3, height, width);
+                    // ctx.rect(piston_x, piston_y + v1, height, width);
+                    // ctx.rect(piston_x, piston_y + v2, height, width);
                     ctx.fillStyle = "#676482";
                     ctx.fill();
                     ctx.stroke();
@@ -166,7 +168,7 @@
                     ctx.beginPath();
                     ctx.lineWidth = 10;
                     ctx.lineCap = "round";
-                    ctx.moveTo(50, 100);
+                    ctx.moveTo(50, 130);
                     ctx.lineTo(50, 300);
                     ctx.strokeStyle = '#9EA18C';
                     ctx.stroke();
@@ -174,7 +176,7 @@
                     ctx.beginPath();
                     ctx.lineWidth = 10;
                     ctx.lineCap = "round";
-                    ctx.moveTo(250, 100);
+                    ctx.moveTo(250, 130);
                     ctx.lineTo(250, 300);
                     ctx.strokeStyle = '#9EA18C';
                     ctx.stroke();
@@ -195,13 +197,11 @@
                     ctx.stroke();
                     ctx.closePath();
 
+                    if(flag===false) {
+                        P2 = Math.round(150 * Math.sin(x)) /5;
+                        x = x + 0.0003;
+                    }
 
-                    // if(flag===false) {
-                    //     step = Math.round(200 * Math.cos(x)) /5;
-                    //     x = x + 0.003;
-                    // }else{
-                    //     step2= Math.round(200 * Math.sin(x)) /5;
-                    // }
 
                     document.getElementById("p1").innerHTML = "P<sub>1</sub> = " + $('#l1spinner').spinner("value") + " kPa";
                     document.getElementById("p2").innerHTML = "P<sub>2</sub> = " + P2.toFixed(2) + " kPa";
@@ -239,7 +239,7 @@
             ctx.beginPath();
             ctx.lineWidth = 1;
             ctx.font = "25px Georgia";
-            ctx.fillText("Isentropic Expansion", 45, 80);
+            ctx.fillText("Isentropic Expansion", 45, 100);
             ctx.fillText("Q2", 130, 350);
             // ctx.rect(piston_x, piston_y +P2, height, width);
             ctx.fillStyle = "#676482";
@@ -255,28 +255,17 @@
             ctx.fill();
             ctx.stroke();
             ctx.closePath();
-
-            // ctx.beginPath();
-            // ctx.lineWidth = 10;
-            // ctx.moveTo(50, 50);
-            // ctx.quadraticCurveTo(100, 100, 200, 20);
-            // ctx.fillStyle = "red";
-            // ctx.fill();
-            // ctx.stroke();
-            // ctx.closePath();
-
         }
         draw01();
 
         function draw02() {
             var canvas = document.getElementById('simscreen');
             ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 800, 500);
 
             ctx.beginPath();
             ctx.lineWidth = 1;
             ctx.font = "25px Georgia";
-            ctx.fillText("Constant volume combustion", 15, 80);
+            ctx.fillText("Constant volume combustion", 15, 100);
             ctx.fillText("Q1", 130, 350);
             // ctx.rect(piston_x, piston_y + P3, height, width);
             ctx.fillStyle = "#676482";
@@ -298,12 +287,11 @@
         function draw03() {
             var canvas = document.getElementById('simscreen');
             ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 800, 500);
 
             ctx.beginPath();
             ctx.lineWidth = 1;
             ctx.font = "25px Georgia";
-            ctx.fillText("Isentropic Compression", 35, 80);
+            ctx.fillText("Isentropic Compression", 35, 100);
             // ctx.rect(piston_x, piston_y + v1, height, width);
             ctx.fillStyle = "#676482";
             ctx.fill();
@@ -324,12 +312,11 @@
         function draw04() {
             var canvas = document.getElementById('simscreen');
             ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 800, 500);
 
             ctx.beginPath();
             ctx.lineWidth = 1;
             ctx.font = "25px Georgia";
-            ctx.fillText("Constant volume heat Rejection", 10, 80);
+            ctx.fillText("Constant volume heat Rejection", 10, 100);
             // ctx.rect(piston_x, piston_y + v1, height, width);
             ctx.fillStyle = "#676482";
             ctx.fill();
@@ -350,17 +337,16 @@
         function draw05() {
             var canvas = document.getElementById('simscreen');
             ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 800, 500);
 
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.font = "25px Georgia";
-            ctx.fillText("isothermal heat addition", 20, 80);
-            // ctx.rect(piston_x, piston_y + v1, height, width);
-            ctx.fillStyle = "#676482";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
+            // ctx.beginPath();
+            // ctx.lineWidth = 1;
+            // ctx.font = "25px Georgia";
+            // ctx.fillText("isothermal heat addition", 20, 120);
+            // // ctx.rect(piston_x, piston_y + v1, height, width);
+            // ctx.fillStyle = "#676482";
+            // ctx.fill();
+            // ctx.stroke();
+            // ctx.closePath();
 
 
             ctx.beginPath();
@@ -466,8 +452,8 @@
 
             // Heat capacity Ratio r
 
-            $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();draw05();});
-            $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();draw05();});
+            $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();drwa05();});
+            $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();drwa05();});
             $( "#l5spinner" ).on( "change", function() {varchange() } );
 
             P1 = $('#l1spinner').spinner('value');

@@ -126,19 +126,19 @@ canvas#simscreen1
 	height: 380px;
 	width: 555px;
 	fill: #1c87c9;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 }
 
-/*canvas#simscreen*/
-/*{*/
-/*	position:absolute;*/
-/*	left:45px;*/
-/*	top:100px;*/
-/*	height: 380px;*/
-/*	width: 380px;*/
-/*	fill: #1c87c9;*/
-/*	border: 5px solid black;*/
-/*}*/
+canvas#simscreen
+{
+	position:absolute;
+	left:35px;
+	top:100px;
+	height: 350px;
+	width: 260px;
+	fill: #1c87c9;
+	/*border: 2px solid black;*/
+}
 div#mydiv{
 	position:absolute;
 	left:55px;
@@ -148,16 +148,67 @@ div#mydiv{
 	/*border: 0px solid black;*/
 }
 
+/*div#commentboxleft*/
+/*{*/
+/*	border-top-style: dotted;*/
+/*	border-top-width: 2px;*/
+/*	border-top-color: #f6ebed;*/
+/*	position:absolute;*/
+/*	left:38px;*/
+/*	top:445px;*/
+/*	height: 65px;*/
+/*	width: 280px;*/
+/*	color: #e7722b;*/
+/*	text-align: left;*/
+/*	font-size: 15px;*/
+/*	font-family: "Comic Sans MS", cursive, sans-serif;*/
+/*}*/
+
+/*div#commentboxright*/
+/*{	*/
+/*	border-top-style: dotted;*/
+/*	border-top-width: 2px;*/
+/*	border-top-color: #f6ebed;	*/
+/*	border-left-style: dotted;*/
+/*	border-left-width: 2px;*/
+/*	border-left-color: #f6ebed;*/
+/*	position:absolute;*/
+/*	left:313px;*/
+/*	top: 445px;*/
+/*	height: 65px;*/
+/*	width: 280px;*/
+/*	color: #e7722b;*/
+/*	text-align: left;*/
+/*	font-size: 15px;*/
+/*	font-family: "Comic Sans MS", cursive, sans-serif;*/
+/*}*/
+
 div#commentboxleft
 {
 	border-top-style: dotted;
-	border-top-width: 2px;
+	border-top-width: 0px;
 	border-top-color: #f6ebed;
 	position:absolute;
 	left:38px;
 	top:445px;
 	height: 65px;
-	width: 280px;
+	width: 220px;
+	color: #e7722b;
+	text-align: left;
+	font-size: 15px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+div#commentboxmiddle
+{
+	border-top-style: dotted;
+	border-top-width: 0px;
+	border-top-color: #f6ebed;
+	position:absolute;
+	left:228px;
+	top:445px;
+	height: 65px;
+	width: 140px;
 	color: #e7722b;
 	text-align: left;
 	font-size: 15px;
@@ -165,24 +216,21 @@ div#commentboxleft
 }
 
 div#commentboxright
-{	
+{
 	border-top-style: dotted;
-	border-top-width: 2px;
-	border-top-color: #f6ebed;	
-	border-left-style: dotted;
-	border-left-width: 2px;
-	border-left-color: #f6ebed;
+	border-top-width: 0px;
+	border-top-color: #f6ebed;
+/*border-left-style: dotted;*/
 	position:absolute;
-	left:313px;
+	left:405px;
 	top: 445px;
 	height: 65px;
-	width: 280px;
+	width: 140px;
 	color: #e7722b;
 	text-align: left;
 	font-size: 15px;
 	font-family: "Comic Sans MS", cursive, sans-serif;
 }
-
 
 div#variables
 {
@@ -209,16 +257,25 @@ input#l4spinner{
 #playpausebutton
 {
 	position: inherit;
-	left: 45px;
-	top: 30px;
+	left: 50px;
+	top: 80px;
 
 }
 
 #rotationbutton
 {
 	position: relative;
-	left: 80px;
-	top: 65px;
+	left: 120px;
+	top: 80px;
+
+}
+
+
+#input
+{
+	position: relative;
+	left: 50px;
+	top: 100px;
 
 }
 
