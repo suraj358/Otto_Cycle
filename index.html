@@ -46,24 +46,40 @@
 
             //ab 1st
             for(i=v3;i<=v1;i=i+0.01) {
-                datapoints1.push({x: i, y: P3*Math.pow(v3, gamma)/Math.pow(i,gamma)});
+                if(i==v3){
+                    datapoints1.push({x: i, y: P3*Math.pow(v3, gamma)/Math.pow(i,gamma),indexLabel:"1"});
+                }else{
+                    datapoints1.push({x: i, y: P3*Math.pow(v3, gamma)/Math.pow(i,gamma)});
+                }
             }
 
             //bc 2nd
-            //for(j = Math.pow(T2/T1, 1/(gamma-1))*v2; j<=v2; j++) {
             for(j=P1*Math.pow(v1/v3, gamma); j<=P3; j=j+0.01){
-                datapoints2.push({x: v3, y: j});
+                if(j==P1*Math.pow(v1/v3, gamma)){
+                    datapoints2.push({x: v3, y: j,indexLabel:"4"});
+                }else{
+                    datapoints2.push({x: v3, y: j});
+                }
             }
 
             //cd 3rd
             for(k=v3; k<=v1; k=k+0.01){
-                datapoints3.push({ x: k, y: P1*Math.pow(v1, gamma)/Math.pow(k,gamma)});
+                if(k==v3) {
+                    datapoints1.push({x: i, y: P3*Math.pow(v3, gamma)/Math.pow(i,gamma),indexLabel:"2"});
+                }else{
+                    datapoints3.push({x: k, y: P1 * Math.pow(v1, gamma) / Math.pow(k, gamma)});
+                }
             }
 
             //da 4th
-            //for(m=2; m<=Math.pow(T1/T2, 1/(gamma-1))*v1; m++){
             for(m=P1; m<=P3*Math.pow(v3/v1, gamma); m=m+0.01){
-                datapoints4.push({ x: v1 , y: m });
+                if(m==P1){
+                    datapoints3.push({x: k, y: P1 * Math.pow(v1, gamma) / Math.pow(k, gamma),indexLabel:"3"});
+                }else{
+                    datapoints4.push({ x: v1 , y: m });
+
+
+                }
             }
 
             var data = [];
@@ -110,159 +126,259 @@
         }
 
         var piston_x=50;
-        var piston_y=100;
+        var piston_y=160;
         var height=200;
         var width=50;
-
-        var rodtravel=0;
-        var force=0;
-        var work=0;
-        var energy=0;
-        var heat=0;
         var flag=true;
         var step=0;
         var step2=0;
-        var step3=0;
-
+        var x=0;
 
         function draw0() {
+            window.requestAnimFrame = (function () {
+                return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
+                    function (callback) {
+                        window.setTimeout(callback, 1000 / 60);
+                    };
+            })();
+
+
             var canvas = document.getElementById('simscreen');
             ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, 800, 500);
+            cylinder = {
+                draw0: function () {
 
-            //piston
+                    //piston
+                    ctx.beginPath();
+                    ctx.lineWidth = 1;
+                    ctx.rect(piston_x, piston_y + step, height, width);
+                    ctx.fillStyle = "#676482";
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.closePath();
+
+                    //   piston
+                    ctx.beginPath();
+                    ctx.lineWidth = 10;
+                    ctx.lineCap = "round";
+                    ctx.moveTo(50, 100);
+                    ctx.lineTo(50, 300);
+                    ctx.strokeStyle = '#9EA18C';
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.lineWidth = 10;
+                    ctx.lineCap = "round";
+                    ctx.moveTo(250, 100);
+                    ctx.lineTo(250, 300);
+                    ctx.strokeStyle = '#9EA18C';
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.lineWidth = 10;
+                    ctx.lineCap = "round";
+                    ctx.moveTo(50, 300);
+                    ctx.lineTo(250, 300);
+                    ctx.strokeStyle = '#9EA18C'
+                    ctx.stroke();
+                    ctx.closePath();
+
+                    ctx.beginPath();
+                    ctx.rect(503, 200, 94, 30);
+                    ctx.fillStyle = '#676482';
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.closePath();
+
+
+                    // if(flag===false) {
+                    //     step = Math.round(200 * Math.cos(x)) /5;
+                    //     x = x + 0.003;
+                    // }else{
+                    //     step2= Math.round(200 * Math.sin(x)) /5;
+                    // }
+
+                    document.getElementById("p1").innerHTML = "P<sub>1</sub> = " + $('#l1spinner').spinner("value") + " kPa";
+                    document.getElementById("p2").innerHTML = "P<sub>2</sub> = " + P2.toFixed(2) + " kPa";
+                    document.getElementById("p3").innerHTML = "P<sub>3</sub> = " + $('#l2spinner').spinner("value") + " kPa";
+                    document.getElementById("p4").innerHTML = "P<sub>4</sub> = " + P4.toFixed(2) + " kPa";
+                    document.getElementById("p5").innerHTML = "v<sub>1</sub> = " + $('#l3spinner').spinner("value") + " m<sup>3</sup>/kg";
+                    document.getElementById("p6").innerHTML = "v<sub>2</sub> = " + v2.toFixed(2) + " m<sup>3</sup>/kg";
+                    document.getElementById("p7").innerHTML = "v<sub>3</sub> = " + $('#l4spinner').spinner("value") + " m<sup>3</sup>/kg";
+                    document.getElementById("p8").innerHTML = "v<sub>4</sub> = " + v4 + " m<sup>3</sup>/kg";
+                    document.getElementById("p9").innerHTML = "r<sub>k</sub> = " + rk.toFixed(2);
+                    //document.getElementById("p10").innerHTML = "r<sub>c</sub> = " + rc.toFixed(1) + " kJ/kg";
+                    //document.getElementById("p11").innerHTML = "W<sub>net</sub> = " + Wnet.toFixed(1) + " kJ/kg";
+                    document.getElementById("p10").innerHTML = "Efficiency = " + ef.toFixed(2);
+
+                }
+            };
+
+            (function animloop() {
+                requestAnimFrame(animloop);
+                // ctx.clearRect(0, 0, 800, 500);
+                cylinder.draw0();
+            })();
+        }
+
+
+        function P2(input){
+
+            rodtravel=input;
+        }
+
+        function draw01() {
+            var canvas = document.getElementById('simscreen');
+            ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 800, 500);
             ctx.beginPath();
-            ctx.lineWidth=1;
-            ctx.rect(piston_x, piston_y+2+P1, height, width);
-            // ctx.rect(piston_x, piston_y+2+step2, height, width);
-            // ctx.rect(piston_x, piston_y+2+step3, height, width);
-            ctx.fillStyle="#676482";
+            ctx.lineWidth = 1;
+            ctx.font = "25px Georgia";
+            ctx.fillText("Isentropic Expansion", 45, 80);
+            ctx.fillText("Q2", 130, 350);
+            // ctx.rect(piston_x, piston_y +P2, height, width);
+            ctx.fillStyle = "#676482";
             ctx.fill();
             ctx.stroke();
             ctx.closePath();
 
-            //wall
+
             ctx.beginPath();
-            ctx.lineWidth=5;
-            ctx.lineCap="round";
-            ctx.fillStyle="blue";
-
-            ctx.moveTo(50,50);
-            ctx.lineTo(50,300);
-
-            ctx.moveTo(250,50);
-            ctx.lineTo(250,300);
-
-            ctx.moveTo(50,300);
-            ctx.lineTo(250,300);
-
+            ctx.lineWidth = 10;
+            ctx.rect(50, 250 , 200, 50);
+            ctx.fillStyle = "red";
+            ctx.fill();
             ctx.stroke();
             ctx.closePath();
 
             // ctx.beginPath();
-            // ctx.fillStyle="brown";
-            // ctx.arc(150,320,40,0,Math.PI*2);
+            // ctx.lineWidth = 10;
+            // ctx.moveTo(50, 50);
+            // ctx.quadraticCurveTo(100, 100, 200, 20);
+            // ctx.fillStyle = "red";
             // ctx.fill();
             // ctx.stroke();
             // ctx.closePath();
 
-            //   piston
-  ctx.beginPath();
-       ctx.lineWidth = 5;
-     ctx.lineCap="round";
-     ctx.moveTo(100, 150);
-     ctx.lineTo(100,300);
-     ctx.strokeStyle = '#9EA18C';
-     ctx.stroke();
-
-     ctx.beginPath();
-       ctx.lineWidth = 5;
-     ctx.lineCap="round";
-     ctx.moveTo(600, 150);
-     ctx.lineTo(600,300);
-     ctx.strokeStyle = '#9EA18C';
-     ctx.stroke();
-
-     ctx.beginPath();
-     ctx.lineWidth = 5;
-     ctx.lineCap="round";
-     ctx.moveTo(600, 300);
-     ctx.lineTo(500,300);
-     ctx.strokeStyle = '#9EA18C'
-     ctx.stroke();
-     ctx.closePath();
-
-     ctx.beginPath();
-     ctx.lineWidth = 10;
-     ctx.moveTo(550, 150);
-     ctx.lineTo(550,200);
-     ctx.strokeStyle = 'gray';
-     ctx.stroke();
-
-     ctx.beginPath();
-     ctx.rect(503, 200, 94, 30);
-     ctx.fillStyle = '#676482';
-     ctx.fill();
-     ctx.closePath();
-
-
-            if(flag === false){
-
-                work=Math.round(P1)*force;
-                energy=parseInt(heat)-parseInt(work);
-
-                if(P1<rodtravel){
-
-                    P1+=4.0;
-
-                }
-                else{
-
-                    P1-=6.0;
-                }
-            }
-            else{
-                P1=0;
-            }
-
-
-
-              // if(flag === false){
-              //
-              //   work=Math.round(step2)*force;
-              //   energy=parseInt(heat)-parseInt(work);
-              //
-              //   if(step<rodtravel){
-              //
-              //       step+=50.0;
-              //
-              //   }
-              //   else{
-              //
-              //       step-=60.0;
-              //   }
-            // }
-            // else{
-            //     step=0;
-            // }
-
-            document.getElementById("p1").innerHTML = "P<sub>1</sub> = " + $('#l1spinner').spinner("value") + " kPa";
-            document.getElementById("p2").innerHTML = "P<sub>2</sub> = " + P2.toFixed(2) + " kPa";
-            document.getElementById("p3").innerHTML = "P<sub>3</sub> = " + $('#l2spinner').spinner("value") + " kPa";
-            document.getElementById("p4").innerHTML = "P<sub>4</sub> = " + P4.toFixed(2) + " kPa";
-            document.getElementById("p5").innerHTML = "v<sub>1</sub> = " + $('#l3spinner').spinner("value") + " m<sup>3</sup>/kg";
-            document.getElementById("p6").innerHTML = "v<sub>2</sub> = " + v2.toFixed(2) + " m<sup>3</sup>/kg";
-            document.getElementById("p7").innerHTML = "v<sub>3</sub> = " + $('#l4spinner').spinner("value") + " m<sup>3</sup>/kg";
-            document.getElementById("p8").innerHTML = "v<sub>4</sub> = " + v4 + " m<sup>3</sup>/kg";
-            document.getElementById("p9").innerHTML = "r<sub>k</sub> = " + rk.toFixed(2);
-            //document.getElementById("p10").innerHTML = "r<sub>c</sub> = " + rc.toFixed(1) + " kJ/kg";
-            //document.getElementById("p11").innerHTML = "W<sub>net</sub> = " + Wnet.toFixed(1) + " kJ/kg";
-            document.getElementById("p10").innerHTML = "Efficiency = " + ef.toFixed(2);
         }
+        draw01();
+
+        function draw02() {
+            var canvas = document.getElementById('simscreen');
+            ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 800, 500);
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.font = "25px Georgia";
+            ctx.fillText("Constant volume combustion", 15, 80);
+            ctx.fillText("Q1", 130, 350);
+            // ctx.rect(piston_x, piston_y + P3, height, width);
+            ctx.fillStyle = "#676482";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.rect(50, 250 , 200, 50);
+            ctx.fillStyle = "blue";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+        }
+        draw02();
+
+        function draw03() {
+            var canvas = document.getElementById('simscreen');
+            ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 800, 500);
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.font = "25px Georgia";
+            ctx.fillText("Isentropic Compression", 35, 80);
+            // ctx.rect(piston_x, piston_y + v1, height, width);
+            ctx.fillStyle = "#676482";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.rect(50, 250 , 200, 50);
+            ctx.fillStyle = "lightblue";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+        }
+        draw03();
+
+        function draw04() {
+            var canvas = document.getElementById('simscreen');
+            ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 800, 500);
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.font = "25px Georgia";
+            ctx.fillText("Constant volume heat Rejection", 10, 80);
+            // ctx.rect(piston_x, piston_y + v1, height, width);
+            ctx.fillStyle = "#676482";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.rect(50, 250 , 200, 50);
+            ctx.fillStyle = "gray";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+        }
+        draw04();
+
+        function draw05() {
+            var canvas = document.getElementById('simscreen');
+            ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 800, 500);
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.font = "25px Georgia";
+            ctx.fillText("isothermal heat addition", 20, 80);
+            // ctx.rect(piston_x, piston_y + v1, height, width);
+            ctx.fillStyle = "#676482";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.rect(50, 250 , 200, 50);
+            ctx.fillStyle = "blue";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+        }
+        draw05();
+
+
 
         function simstate() {
 
             if (flag === true) {
+
                 document.getElementById('playpausebutton').src = "sins/bluepausedull.png";
                 flag = false;
             } else {
@@ -270,40 +386,7 @@
                 flag = true;
             }
         }
-        function travel_val(input){
 
-            rodtravel=input;
-            document.getElementById("p1").innerHTML="Displacement is "+rodtravel+" m";
-        }
-
-
-        function force_val(input){
-
-            force=input;
-            document.getElementById("p2").innerHTML="Force exerted is "+force+" N";
-
-        }
-
-        function heat_val(input){
-
-            heat=input;
-            document.getElementById("p3").innerHTML="Heat added to the system is "+heat+" J";
-
-        }
-
-        function energy_val(input){
-
-            energy=input;
-            document.getElementById("p4").innerHTML="Change in Energy &Delta;U is "+energy+" J";
-
-        }
-
-        function work_val(){
-
-            work=parseInt(force*rodtravel);
-            document.getElementById("p5").innerHTML="Work done is "+work+" N";
-
-        }
 
         function varinit()
         {
@@ -319,16 +402,9 @@
             $('#l4spinner').spinner("value", 0);
             $('#l5slider').slider("value", 0);
             $('#l5spinner').spinner("value", 0);
-            travel_val(0);
-            work_val(0);
-            energy_val(0);
-            force_val(0);
-            heat_val(0);
-
 
             v1 = 15;
             v3 = 5;
-            //let R = 8.314;
             P1 = 4;
             P3 = 50;
             gamma = 1.5;
@@ -340,20 +416,23 @@
         function varchange()
         {
             // Variable r1 slider and number input types
-            $('#l1slider').slider({ max : 6, min : 4, step : 0.01});           // slider initialisation : jQuery widget
-            $('#l1spinner').spinner({ max : 6, min : 4, step : 0.01 });        // number initialisation : jQuery widget
+            $('#l1slider').slider({ max : 8, min : 4, step : 0.01});           // slider initialisation : jQuery widget
+            $('#l1spinner').spinner({ max : 8, min : 4, step : 0.01 });        // number initialisation : jQuery widget
             //
-            // $('#l1slider').slider({ max : 40, min : -40, step : 1});           // slider initialisation : jQuery widget
-            // $('#l1spinner').spinner({ max : 40, min : -40, step : 1 });        //
-
-            $('#l2slider').slider({ max : 60.0, min : 50, step : 0.01 });        // slider initialisation : jQuery widget
-            $('#l2spinner').spinner({ max : 60.0, min : 50, step : 0.01 });          // number initialisation : jQuery widget
+            // $('#l1slider').slider({ max : 0, min : -20, step : 1});           // slider initialisation : jQuery widget
+            // $('#l1spinner').spinner({ max : 0, min : -20, step : 1 });        //
+            //
+            $('#l2slider').slider({ max : 60.0, min : 50.0, step : 0.01 });        // slider initialisation : jQuery widget
+            $('#l2spinner').spinner({ max : 60.0, min : 50.0, step : 0.01 });          // number initialisation : jQuery widget
+            //
+            // $('#l2slider').slider({ max : 20, min : 0, step : 1});           // slider initialisation : jQuery widget
+            // $('#l2spinner').spinner({ max : 20, min : 0, step : 1 });        //
 
             $('#l3slider').slider({ max : 18, min : 15, step : 0.01});          // slider initialisation : jQuery widget
             $('#l3spinner').spinner({max : 18, min : 15, step : 0.01 });        // number initialisation : jQuery widget
 
-            $('#l4slider').slider({ max : 6, min : 5, step : 0.01 });          // slider initialisation : jQuery widget
-            $('#l4spinner').spinner({ max : 6, min : 5, step :0.01 });         // number initialisation : jQuery widget
+            $('#l4slider').slider({ max : 14, min : 6, step : 0.01 });          // slider initialisation : jQuery widget
+            $('#l4spinner').spinner({ max : 14, min : 6, step :0.01 });         // number initialisation : jQuery widget
 
             $('#l5slider').slider({ max : 1.68, min : 1.5, step : 0.01});          // slider initialisation : jQuery widget
             $('#l5spinner').spinner({ max : 1.68, min : 1.5, step :0.01 });           // number initialisation : jQuery widget
@@ -363,41 +442,41 @@
             // setting trace point coordinate arrays to empty on change of link length
 
             //Cold reservoir T1
-            $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();});
-            $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();});
+            $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();draw01();});
+            $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();draw01();});
             $( "#l1spinner" ).on( "change", function() {varchange(); } );
 
             // Hot reservoir T2
 
-            $( "#l2slider" ).on(  "slide",  function( e, ui ) {$('#l2spinner').spinner("value",ui.value);varupdate();});
-            $( "#l2spinner" ).on( "spin",   function( e, ui ) {$('#l2slider').slider("value",ui.value);varupdate();});
+            $( "#l2slider" ).on(  "slide",  function( e, ui ) {$('#l2spinner').spinner("value",ui.value);varupdate();draw02();});
+            $( "#l2spinner" ).on( "spin",   function( e, ui ) {$('#l2slider').slider("value",ui.value);varupdate();draw02();});
             $( "#l2spinner" ).on( "change", function() {varchange() } );
 
             // Volume v1
 
-            $( "#l3slider" ).on(  "slide",  function( e, ui ) {$('#l3spinner').spinner("value",ui.value);varupdate();});
-            $( "#l3spinner" ).on( "spin",   function( e, ui ) {$('#l3slider').slider("value",ui.value);varupdate();});
+            $( "#l3slider" ).on(  "slide",  function( e, ui ) {$('#l3spinner').spinner("value",ui.value);varupdate();draw03();});
+            $( "#l3spinner" ).on( "spin",   function( e, ui ) {$('#l3slider').slider("value",ui.value);varupdate();draw03();});
             $( "#l3spinner" ).on( "change", function() {varchange() } );
 
             //Volume v2
 
-            $( "#l4slider" ).on(  "slide",  function( e, ui ) {$('#l4spinner').spinner("value",ui.value);varupdate();});
-            $( "#l4spinner" ).on( "spin",   function( e, ui ) {$('#l4slider').slider("value",ui.value);varupdate();});
+            $( "#l4slider" ).on(  "slide",  function( e, ui ) {$('#l4spinner').spinner("value",ui.value);varupdate();draw04();});
+            $( "#l4spinner" ).on( "spin",   function( e, ui ) {$('#l4slider').slider("value",ui.value);varupdate();drwa04();});
             $( "#l4spinner" ).on( "change", function() {varchange() } );
 
             // Heat capacity Ratio r
 
-            $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();});
-            $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();});
+            $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();draw05();});
+            $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();draw05();});
             $( "#l5spinner" ).on( "change", function() {varchange() } );
-            // // travel_val($('#l1spinner').spinner("value"));
-            travel_val($('#l2spinner').spinner("value"));
 
             P1 = $('#l1spinner').spinner('value');
             P3 = $('#l2spinner').spinner('value');
             v1 = $('#l3spinner').spinner('value');
             v3 = $('#l4spinner').spinner('value');
             gamma = $('#l5spinner').spinner('value');
+
+
             varupdate();
         }
 
@@ -427,11 +506,12 @@
             console.log(P1, P3, v1, v3)
             dummy();
             draw0();
+
         }
     </script>
 </head>
 
-<body onload="varinit()">
+<body onload="varinit();draw0();dummy();">
 <!-- Defining Container for Simulation -->
 <noscript>
     The simulation requires JavaScript to be enabled.
@@ -511,6 +591,11 @@
 <div id="controls">
     <img id="playpausebutton" onclick="simstate();" src="sins/blueplaydull.png" />
     <img id="rotationbutton" onclick="location.reload();" src="sins/bluecwdull.png" />
+
+    <!--    <label for="chkPassport">-->
+    <!--        <input type="checkbox" id="chkPassport" onclick="ShowHideDiv(this)" />graph-->
+    <!--    </label>-->
+
     <div style="position:relative; left: 15px;top:-60px;">
 
         <button class="tooltip" style="border:1px solid darkred ; color:black;top: 5px; text-align:justify;left: 10px">Symbols
