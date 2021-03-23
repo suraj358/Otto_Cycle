@@ -145,7 +145,7 @@
                     };
             })();
 
-   var canvas = document.getElementById('simscreen'),
+            var canvas = document.getElementById('simscreen'),
                 ctx = canvas.getContext('2d'),
                 crankCaseColor = '#9EA18C',
                 pistonColor = '#676482',
@@ -194,7 +194,7 @@
 
 
 
-                              // piston
+                        // piston
 
                         ctx.beginPath();
                         ctx.fillStyle = pistonColor;
@@ -219,28 +219,74 @@
                         ctx.lineCap = 'round';
                         ctx.stroke();
 
+                         // source and sink
 
-                    if(flag===false) {
-                        P2 = Math.round(150 * Math.sin(x)) /3;
-                        x = x + 0.003;
+                        ctx.beginPath();
+                        ctx.fillStyle="blue";    // red
+                            if(step2>P2){
+                            if(P2>-41 && P2<20){
+                                ctx.fillStyle="#D50000";    // red
+                                ctx.font = "25px Georgia";
+                                ctx.fillText("Isentropic Expansion", 45, 40);
+                                ctx.fillText("Q2", 130, 375);
+                            }
+                            else if(P2>20 && P2<41){
+                                ctx.fillStyle="blue";    // white
+                                ctx.fillText("Constant volume combustion", 15, 40);
+                                ctx.fillText("Q1", 130, 375);
+
+                            }
+                        }
+
+                        else if(P2>step2){
+                            if(step<41&& step>-20){
+                                ctx.fillStyle="#2962FF";     // blue
+                                ctx.fillText("Isentropic Compression", 35, 40);
+                            }
+                            else{
+                                ctx.fillStyle="red";    // white
+                                ctx.fillText("Constant volume heat Rejection", 10, 40);
+                            }
+                        }
+
+                        ctx.fillRect(left_wall_x+2,left_wall_y_end+2,piston_width-4,50-4);
+                        ctx.stroke();
+
+                        // piston
+
+                        ctx.beginPath();
+                        ctx.fillStyle = pistonColor;
+                        ctx.fillRect(piston_x+2,piston_y-P2,piston_width-4,piston_height);
+                        ctx.stroke();
+
+                        // cavity
+
+                        ctx.beginPath();
+                        ctx.fillStyle = test;
+                        ctx.fillRect(piston_x+2,piston_y-P2+piston_height,piston_width-4,90+P2);
+                        ctx.stroke();
+
+                        if(flag===false) {
+                            P2 = Math.round(150 * Math.sin(x)) /3;
+                            x = x + 0.003;
+                        }
+                        //
+                        //
+                        document.getElementById("p1").innerHTML = "P<sub>1</sub> = " + $('#l1spinner').spinner("value") + " kPa";
+                        document.getElementById("p2").innerHTML = "P<sub>2</sub> = " + P2.toFixed(2) + " kPa";
+                        document.getElementById("p3").innerHTML = "P<sub>3</sub> = " + $('#l2spinner').spinner("value") + " kPa";
+                        document.getElementById("p4").innerHTML = "P<sub>4</sub> = " + P4.toFixed(2) + " kPa";
+                        document.getElementById("p5").innerHTML = "v<sub>1</sub> = " + $('#l3spinner').spinner("value") + " m<sup>3</sup>/kg";
+                        document.getElementById("p6").innerHTML = "v<sub>2</sub> = " + v2.toFixed(2) + " m<sup>3</sup>/kg";
+                        document.getElementById("p7").innerHTML = "v<sub>3</sub> = " + $('#l4spinner').spinner("value") + " m<sup>3</sup>/kg";
+                        document.getElementById("p8").innerHTML = "v<sub>4</sub> = " + v4 + " m<sup>3</sup>/kg";
+                        document.getElementById("p9").innerHTML = "r<sub>k</sub> = " + rk.toFixed(2);
+                        //document.getElementById("p10").innerHTML = "r<sub>c</sub> = " + rc.toFixed(1) + " kJ/kg";
+                        //document.getElementById("p11").innerHTML = "W<sub>net</sub> = " + Wnet.toFixed(1) + " kJ/kg";
+                        document.getElementById("p10").innerHTML = "Efficiency = " + ef.toFixed(2);
+
                     }
-
-
-                    document.getElementById("p1").innerHTML = "P<sub>1</sub> = " + $('#l1spinner').spinner("value") + " kPa";
-                    document.getElementById("p2").innerHTML = "P<sub>2</sub> = " + P2.toFixed(2) + " kPa";
-                    document.getElementById("p3").innerHTML = "P<sub>3</sub> = " + $('#l2spinner').spinner("value") + " kPa";
-                    document.getElementById("p4").innerHTML = "P<sub>4</sub> = " + P4.toFixed(2) + " kPa";
-                    document.getElementById("p5").innerHTML = "v<sub>1</sub> = " + $('#l3spinner').spinner("value") + " m<sup>3</sup>/kg";
-                    document.getElementById("p6").innerHTML = "v<sub>2</sub> = " + v2.toFixed(2) + " m<sup>3</sup>/kg";
-                    document.getElementById("p7").innerHTML = "v<sub>3</sub> = " + $('#l4spinner').spinner("value") + " m<sup>3</sup>/kg";
-                    document.getElementById("p8").innerHTML = "v<sub>4</sub> = " + v4 + " m<sup>3</sup>/kg";
-                    document.getElementById("p9").innerHTML = "r<sub>k</sub> = " + rk.toFixed(2);
-                    //document.getElementById("p10").innerHTML = "r<sub>c</sub> = " + rc.toFixed(1) + " kJ/kg";
-                    //document.getElementById("p11").innerHTML = "W<sub>net</sub> = " + Wnet.toFixed(1) + " kJ/kg";
-                    document.getElementById("p10").innerHTML = "Efficiency = " + ef.toFixed(2);
-
-                }
-            };
+                };
 
             (function animloop() {
                 requestAnimFrame(animloop);
@@ -250,6 +296,8 @@
         }
         var step=0;
         var step2=0;
+        var flag=true;
+        var x=0;
         function start1() {
 
             window.requestAnimFrame = (function(){
@@ -320,21 +368,21 @@
 
                         ctx.beginPath();
                         ctx.fillStyle="blue";    // red
-                        if(step2>step){
-                            if(step>-41 && step<20){
+                        if(step2>P2){
+                            if(P2>-41 && P2<20){
                                 ctx.fillStyle="#D50000";    // red
                                 ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
-                            else if(step>20 && step<41){
+                            else if(P2>20 && P2<41){
                                 ctx.fillStyle="blue";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
 
                             }
                         }
-                        else if(step>step2){
+                        else if(P2>step2){
                             if(step<41&& step>-20){
                                 ctx.fillStyle="#2962FF";     // blue
                                 ctx.fillText("Isentropic Compression", 35, 40);
@@ -352,15 +400,17 @@
 
                         ctx.beginPath();
                         ctx.fillStyle = pistonColor;
-                        ctx.fillRect(piston_x+2,piston_y-step,piston_width-4,piston_height);
+                        ctx.fillRect(piston_x+2,piston_y-P2,piston_width-4,piston_height);
                         ctx.stroke();
 
                         // cavity
 
                         ctx.beginPath();
                         ctx.fillStyle = test;
-                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
+                        ctx.fillRect(piston_x+2,piston_y-P2+piston_height,piston_width-4,90+P2);
                         ctx.stroke();
+
+
 
                         // connecting rod
 
@@ -368,15 +418,15 @@
                         ctx.strokeStyle = pistonColor;
                         ctx.fillStyle = pistonColor;
                         ctx.lineWidth = 10;
-                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-step);
-                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-step-70);
+                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-P2);
+                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-P2-70);
                         ctx.lineCap = 'round';
                         ctx.stroke();
 
                         if(flag===false){
 
 
-                            step=Math.round(400*Math.sin(x))/6;
+                            P2=Math.round(400*Math.sin(x))/6;
                             x=x+0.005;
                             step2=Math.round(400*Math.sin(x))/6;
                             console.log(step);
