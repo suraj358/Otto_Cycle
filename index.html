@@ -192,24 +192,6 @@
                         ctx.lineTo(right_wall_x,left_wall_y_end);
                         ctx.stroke();
 
-
-
-                        // piston
-
-                        ctx.beginPath();
-                        ctx.fillStyle = pistonColor;
-                        ctx.fillRect(piston_x+2,piston_y-step,piston_width-4,piston_height);
-                        ctx.stroke();
-
-                        // cavity
-
-                        ctx.beginPath();
-                        ctx.fillStyle = test;
-                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
-                        ctx.stroke();
-
-                        // connecting rod
-
                         ctx.beginPath();
                         ctx.strokeStyle = pistonColor;
                         ctx.fillStyle = pistonColor;
@@ -219,16 +201,16 @@
                         ctx.lineCap = 'round';
                         ctx.stroke();
 
-
+                                ctx.fillStyle="blue";    // red
                             if(step2>step){
                             if(step>-41 && step<20){
-                                ctx.fillStyle="#D50000";    // red
+                                ctx.fillStyle="blue";    // red
                                 ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
                             else if(step>20 && step<41){
-                                ctx.fillStyle="blue";    // white
+                                // ctx.fillStyle="blue";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
 
@@ -237,7 +219,7 @@
 
                         else if(step>step2){
                             if(step<41&& step>-20){
-                                ctx.fillStyle="#2962FF";     // blue
+                                ctx.fillStyle="#D50000";    // red
                                 ctx.fillText("Isentropic Compression", 35, 40);
                             }
                             else{
@@ -291,6 +273,10 @@
                 cylinder.draw0();
             })();
         }
+
+
+
+
         var step=0;
         var step2=0;
         var flag=true;
@@ -364,16 +350,16 @@
                         // source and sink
 
                         ctx.beginPath();
-                        ctx.fillStyle="blue";    // red
+                                ctx.fillStyle="blue";    // red
                         if(step2>step){
                             if(step>-41 && step<20){
-                                ctx.fillStyle="#D50000";    // red
+                                ctx.fillStyle="blue";    // red
                                 ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
                             else if(step>20 && step<41){
-                                ctx.fillStyle="blue";    // white
+                                // ctx.fillStyle="blue";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
 
@@ -381,7 +367,7 @@
                         }
                         else if(step>step2){
                             if(step<41&& step>-20){
-                                ctx.fillStyle="#2962FF";     // blue
+                                ctx.fillStyle="#D50000";    // red
                                 ctx.fillText("Isentropic Compression", 35, 40);
                             }
                             else{
@@ -424,7 +410,7 @@
 
 
                             step=Math.round(400*Math.sin(x))/6;
-                            x=x+0.005;
+                            x=x+0.003;
                             step2=Math.round(400*Math.sin(x))/6;
                             console.log(step);
 
