@@ -12,7 +12,7 @@
     <script type="text/javascript" >
 
         var step  = 0;
-
+var flag=true;
         let v1 = 15;
         let v3 = 5;
         let R = 0.287;
@@ -502,9 +502,31 @@ var step=0;
 
                 document.getElementById('playpausebutton').src = "sins/bluepausedull.png";
                 flag = false;
+                $('#l1spinner').spinner("disable");
+                $('#l2spinner').spinner("disable");
+                $('#l3spinner').spinner("disable");
+                $('#l4spinner').spinner("disable");
+                $('#l5spinner').spinner("disable");
+
+                $('#l1slider').slider("disable");
+                $('#l2slider').slider("disable");
+                $('#l3slider').slider("disable");
+                $('#l4slider').slider("disable");
+                $('#l5slider').slider("disable");
             } else {
                 document.getElementById('playpausebutton').src = "sins/blueplaydull.png";
                 flag = true;
+                $('#l1spinner').spinner("enable");
+                $('#l2spinner').spinner("enable");
+                $('#l3spinner').spinner("enable");
+                $('#l4spinner').spinner("enable");
+                $('#l5spinner').spinner("enable");
+
+                $('#l1slider').slider("enable");
+                $('#l2slider').slider("enable");
+                $('#l3slider').slider("enable");
+                $('#l4slider').slider("enable");
+                $('#l5slider').slider("enable");
             }
         }
 
