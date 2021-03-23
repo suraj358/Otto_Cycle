@@ -12,7 +12,7 @@
     <script type="text/javascript" >
 
         var step  = 0;
-var flag=true;
+        var flag=true;
         let v1 = 15;
         let v3 = 5;
         let R = 0.287;
@@ -125,10 +125,10 @@ var flag=true;
 
         }
 
-        var piston_x=50;
-        var piston_y=160;
-        var height=200;
-        var width=50;
+        // var piston_x=50;
+        // var piston_y=160;
+        // var height=200;
+        // var width=50;
         var flag=true;
         var step=0;
         var x=0;
@@ -145,60 +145,83 @@ var flag=true;
                     };
             })();
 
+   var canvas = document.getElementById('simscreen'),
+                ctx = canvas.getContext('2d'),
+                crankCaseColor = '#9EA18C',
+                pistonColor = '#676482',
+                test = '#f4eeff',
+                left_wall_x = 50,
+                left_wall_y_start = 50,
+                left_wall_y_end = 300,
 
-            var canvas = document.getElementById('simscreen');
-            ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 800, 500);
-            cylinder = {
-                draw0: function () {
+                right_wall_x = 250,
+                right_wall_y_start = left_wall_y_start,
+                right_wall_y_end = left_wall_y_end,
 
-                    //piston
-                    ctx.beginPath();
-                    ctx.lineWidth = 1;
-                    ctx.rect(piston_x, piston_y + step, height, width);
-                    // ctx.rect(piston_x, piston_y + P3, height, width);
-                    // ctx.rect(piston_x, piston_y + v1, height, width);
-                    // ctx.rect(piston_x, piston_y + v2, height, width);
-                    ctx.fillStyle = "#676482";
-                    ctx.fill();
-                    ctx.stroke();
-                    ctx.closePath();
+                piston_width = right_wall_x-left_wall_x,
+                piston_height = 40,
+                piston_x = left_wall_x,
+                piston_y = 170,
 
-                    //   piston
-                    ctx.beginPath();
-                    ctx.lineWidth = 10;
-                    ctx.lineCap = "round";
-                    ctx.moveTo(50, 100);
-                    ctx.lineTo(50, 300);
-                    ctx.strokeStyle = '#9EA18C';
-                    ctx.stroke();
+                cylinder = {
+                    draw0 : function () {
 
-                    ctx.beginPath();
-                    ctx.lineWidth = 10;
-                    ctx.lineCap = "round";
-                    ctx.moveTo(250, 100);
-                    ctx.lineTo(250, 300);
-                    ctx.strokeStyle = '#9EA18C';
-                    ctx.stroke();
+                        ctx.strokeStyle = crankCaseColor;
+                        ctx.fillStyle = crankCaseColor;
+                        ctx.lineWidth = 4;
 
-                    ctx.beginPath();
-                    ctx.lineWidth = 10;
-                    ctx.lineCap = "round";
-                    ctx.moveTo(50, 300);
-                    ctx.lineTo(250, 300);
-                    ctx.strokeStyle = '#9EA18C'
-                    ctx.stroke();
-                    ctx.closePath();
+                        // cylinder walls
 
-                    ctx.beginPath();
-                    ctx.rect(503, 200, 94, 30);
-                    ctx.fillStyle = '#676482';
-                    ctx.fill();
-                    ctx.stroke();
-                    ctx.closePath();
+                        ctx.beginPath();
+                        ctx.moveTo(left_wall_x,left_wall_y_start+60);
+                        ctx.lineTo(left_wall_x,left_wall_y_end);
+                        ctx.lineTo(right_wall_x,right_wall_y_end);
+                        ctx.lineTo(right_wall_x,right_wall_y_start+60);
+                        ctx.stroke();
+
+
+                        // source & sink walls
+
+                        ctx.beginPath();
+                        ctx.strokeStyle = crankCaseColor;
+                        ctx.fillStyle = crankCaseColor;
+                        ctx.lineWidth = 4;
+                        ctx.moveTo(left_wall_x,left_wall_y_end);
+                        ctx.lineTo(left_wall_x,left_wall_y_end+50);
+                        ctx.lineTo(right_wall_x,left_wall_y_end+50);
+                        ctx.lineTo(right_wall_x,left_wall_y_end);
+                        ctx.stroke();
+
+
+
+                              // piston
+
+                        ctx.beginPath();
+                        ctx.fillStyle = pistonColor;
+                        ctx.fillRect(piston_x+2,piston_y-P2,piston_width-4,piston_height);
+                        ctx.stroke();
+
+                        // cavity
+
+                        ctx.beginPath();
+                        ctx.fillStyle = test;
+                        ctx.fillRect(piston_x+2,piston_y-P2+piston_height,piston_width-4,90+P2);
+                        ctx.stroke();
+
+                        // connecting rod
+
+                        ctx.beginPath();
+                        ctx.strokeStyle = pistonColor;
+                        ctx.fillStyle = pistonColor;
+                        ctx.lineWidth = 10;
+                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-P2);
+                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-P2-70);
+                        ctx.lineCap = 'round';
+                        ctx.stroke();
+
 
                     if(flag===false) {
-                        step = Math.round(150 * Math.sin(x)) /3;
+                        P2 = Math.round(150 * Math.sin(x)) /3;
                         x = x + 0.003;
                     }
 
@@ -225,7 +248,7 @@ var flag=true;
                 cylinder.draw0();
             })();
         }
-var step=0;
+        var step=0;
         var step2=0;
         function start1() {
 
@@ -245,11 +268,11 @@ var step=0;
                 crankCaseColor = '#9EA18C',
                 pistonColor = '#676482',
                 test = '#f4eeff',
-                left_wall_x = 100,
-                left_wall_y_start = 100,
+                left_wall_x = 50,
+                left_wall_y_start = 50,
                 left_wall_y_end = 300,
 
-                right_wall_x = 200,
+                right_wall_x = 250,
                 right_wall_y_start = left_wall_y_start,
                 right_wall_y_end = left_wall_y_end,
 
@@ -268,10 +291,10 @@ var step=0;
                         // cylinder walls
 
                         ctx.beginPath();
-                        ctx.moveTo(left_wall_x,left_wall_y_start);
+                        ctx.moveTo(left_wall_x,left_wall_y_start+60);
                         ctx.lineTo(left_wall_x,left_wall_y_end);
                         ctx.lineTo(right_wall_x,right_wall_y_end);
-                        ctx.lineTo(right_wall_x,right_wall_y_start);
+                        ctx.lineTo(right_wall_x,right_wall_y_start+60);
                         ctx.stroke();
 
                         // ctx.beginPath();
@@ -296,21 +319,29 @@ var step=0;
                         // source and sink
 
                         ctx.beginPath();
-                        ctx.fillStyle="#D50000";    // red
+                        ctx.fillStyle="blue";    // red
                         if(step2>step){
-                            // if(step>-41 && step<20){
-                            ctx.fillStyle="#D50000";    // red
-                            // }
-                            // else if(step>20 && step<41){
-                            //     ctx.fillStyle="#FFFFFF";    // white
-                            // }
+                            if(step>-41 && step<20){
+                                ctx.fillStyle="#D50000";    // red
+                                ctx.font = "25px Georgia";
+                                ctx.fillText("Isentropic Expansion", 45, 40);
+                                ctx.fillText("Q2", 130, 375);
+                            }
+                            else if(step>20 && step<41){
+                                ctx.fillStyle="blue";    // white
+                                ctx.fillText("Constant volume combustion", 15, 40);
+                                ctx.fillText("Q1", 130, 375);
+
+                            }
                         }
                         else if(step>step2){
                             if(step<41&& step>-20){
                                 ctx.fillStyle="#2962FF";     // blue
+                                ctx.fillText("Isentropic Compression", 35, 40);
                             }
                             else{
-                                ctx.fillStyle="#FFFFFF";    // white
+                                ctx.fillStyle="red";    // white
+                                ctx.fillText("Constant volume heat Rejection", 10, 40);
                             }
                         }
 
@@ -328,7 +359,7 @@ var step=0;
 
                         ctx.beginPath();
                         ctx.fillStyle = test;
-                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,95+step);
+                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
                         ctx.stroke();
 
                         // connecting rod
@@ -362,137 +393,6 @@ var step=0;
 
         }
 
-        function P2(input){
-
-            rodtravel=input;
-        }
-
-        function draw01() {
-            var canvas = document.getElementById('simscreen');
-            ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 800, 500);
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.font = "25px Georgia";
-            ctx.fillText("Isentropic Expansion", 45, 100);
-            ctx.fillText("Q2", 130, 350);
-            // ctx.rect(piston_x, piston_y +P2, height, width);
-            ctx.fillStyle = "#676482";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-
-
-            ctx.beginPath();
-            ctx.lineWidth = 10;
-            ctx.rect(50, 250 , 200, 50);
-            ctx.fillStyle = "red";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        }
-        draw01();
-
-        function draw02() {
-            var canvas = document.getElementById('simscreen');
-            ctx = canvas.getContext('2d');
-
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.font = "25px Georgia";
-            ctx.fillText("Constant volume combustion", 15, 100);
-            ctx.fillText("Q1", 130, 350);
-            // ctx.rect(piston_x, piston_y + P3, height, width);
-            ctx.fillStyle = "#676482";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-
-
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.rect(50, 250 , 200, 50);
-            ctx.fillStyle = "blue";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        }
-        draw02();
-
-        function draw03() {
-            var canvas = document.getElementById('simscreen');
-            ctx = canvas.getContext('2d');
-
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.font = "25px Georgia";
-            ctx.fillText("Isentropic Compression", 35, 100);
-            // ctx.rect(piston_x, piston_y + v1, height, width);
-            ctx.fillStyle = "#676482";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-
-
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.rect(50, 250 , 200, 50);
-            ctx.fillStyle = "lightblue";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        }
-        draw03();
-
-        function draw04() {
-            var canvas = document.getElementById('simscreen');
-            ctx = canvas.getContext('2d');
-
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.font = "25px Georgia";
-            ctx.fillText("Constant volume heat Rejection", 10, 100);
-            // ctx.rect(piston_x, piston_y + v1, height, width);
-            ctx.fillStyle = "#676482";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-
-
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.rect(50, 250 , 200, 50);
-            ctx.fillStyle = "gray";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        }
-        draw04();
-
-        function draw05() {
-            var canvas = document.getElementById('simscreen');
-            ctx = canvas.getContext('2d');
-
-            // ctx.beginPath();
-            // ctx.lineWidth = 1;
-            // ctx.font = "25px Georgia";
-            // ctx.fillText("isothermal heat addition", 20, 120);
-            // // ctx.rect(piston_x, piston_y + v1, height, width);
-            // ctx.fillStyle = "#676482";
-            // ctx.fill();
-            // ctx.stroke();
-            // ctx.closePath();
-
-
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.rect(50, 250 , 200, 50);
-            ctx.fillStyle = "blue";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        }
-        draw05();
 
 
 
@@ -585,32 +485,32 @@ var step=0;
             // setting trace point coordinate arrays to empty on change of link length
 
             //Cold reservoir T1
-            $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();draw01();});
-            $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();draw01();});
+            $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();P1();});
+            $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();P1();});
             $( "#l1spinner" ).on( "change", function() {varchange(); } );
 
             // Hot reservoir T2
 
-            $( "#l2slider" ).on(  "slide",  function( e, ui ) {$('#l2spinner').spinner("value",ui.value);varupdate();draw02();});
-            $( "#l2spinner" ).on( "spin",   function( e, ui ) {$('#l2slider').slider("value",ui.value);varupdate();draw02();});
+            $( "#l2slider" ).on(  "slide",  function( e, ui ) {$('#l2spinner').spinner("value",ui.value);varupdate();});
+            $( "#l2spinner" ).on( "spin",   function( e, ui ) {$('#l2slider').slider("value",ui.value);varupdate();});
             $( "#l2spinner" ).on( "change", function() {varchange() } );
 
             // Volume v1
 
-            $( "#l3slider" ).on(  "slide",  function( e, ui ) {$('#l3spinner').spinner("value",ui.value);varupdate();draw03();});
-            $( "#l3spinner" ).on( "spin",   function( e, ui ) {$('#l3slider').slider("value",ui.value);varupdate();draw03();});
+            $( "#l3slider" ).on(  "slide",  function( e, ui ) {$('#l3spinner').spinner("value",ui.value);varupdate();});
+            $( "#l3spinner" ).on( "spin",   function( e, ui ) {$('#l3slider').slider("value",ui.value);varupdate();});
             $( "#l3spinner" ).on( "change", function() {varchange() } );
 
             //Volume v2
 
-            $( "#l4slider" ).on(  "slide",  function( e, ui ) {$('#l4spinner').spinner("value",ui.value);varupdate();draw04();});
-            $( "#l4spinner" ).on( "spin",   function( e, ui ) {$('#l4slider').slider("value",ui.value);varupdate();drwa04();});
+            $( "#l4slider" ).on(  "slide",  function( e, ui ) {$('#l4spinner').spinner("value",ui.value);varupdate();});
+            $( "#l4spinner" ).on( "spin",   function( e, ui ) {$('#l4slider').slider("value",ui.value);varupdate();});
             $( "#l4spinner" ).on( "change", function() {varchange() } );
 
             // Heat capacity Ratio r
 
-            $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();drwa05();});
-            $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();drwa05();});
+            $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();});
+            $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();});
             $( "#l5spinner" ).on( "change", function() {varchange() } );
 
             P1 = $('#l1spinner').spinner('value');
