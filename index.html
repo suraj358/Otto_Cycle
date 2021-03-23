@@ -155,7 +155,7 @@
                     //piston
                     ctx.beginPath();
                     ctx.lineWidth = 1;
-                    ctx.rect(piston_x, piston_y + P2, height, width);
+                    ctx.rect(piston_x, piston_y + step, height, width);
                     // ctx.rect(piston_x, piston_y + P3, height, width);
                     // ctx.rect(piston_x, piston_y + v1, height, width);
                     // ctx.rect(piston_x, piston_y + v2, height, width);
@@ -168,7 +168,7 @@
                     ctx.beginPath();
                     ctx.lineWidth = 10;
                     ctx.lineCap = "round";
-                    ctx.moveTo(50, 130);
+                    ctx.moveTo(50, 100);
                     ctx.lineTo(50, 300);
                     ctx.strokeStyle = '#9EA18C';
                     ctx.stroke();
@@ -176,7 +176,7 @@
                     ctx.beginPath();
                     ctx.lineWidth = 10;
                     ctx.lineCap = "round";
-                    ctx.moveTo(250, 130);
+                    ctx.moveTo(250, 100);
                     ctx.lineTo(250, 300);
                     ctx.strokeStyle = '#9EA18C';
                     ctx.stroke();
@@ -198,8 +198,8 @@
                     ctx.closePath();
 
                     if(flag===false) {
-                        P2 = Math.round(150 * Math.sin(x)) /5;
-                        x = x + 0.0003;
+                        step = Math.round(150 * Math.sin(x)) /3;
+                        x = x + 0.003;
                     }
 
 
@@ -221,11 +221,146 @@
 
             (function animloop() {
                 requestAnimFrame(animloop);
-                // ctx.clearRect(0, 0, 800, 500);
+                ctx.clearRect(0, 0, 800, 500);
                 cylinder.draw0();
             })();
         }
+var step=0;
+        var step2=0;
+        function start1() {
 
+            window.requestAnimFrame = (function(){
+                return window.requestAnimationFrame     ||
+                    window.webkitRequestAnimationFrame  ||
+                    window.mozRequestAnimationFrame     ||
+                    window.oRequestAnimationFrame       ||
+                    window.msRequestAnimationFrame      ||
+                    function( callback ) {
+                        window.setTimeout(callback, 1000 / 60);
+                    };
+            })();
+
+            var canvas = document.getElementById('simscreen'),
+                ctx = canvas.getContext('2d'),
+                crankCaseColor = '#9EA18C',
+                pistonColor = '#676482',
+                test = '#f4eeff',
+                left_wall_x = 100,
+                left_wall_y_start = 100,
+                left_wall_y_end = 300,
+
+                right_wall_x = 200,
+                right_wall_y_start = left_wall_y_start,
+                right_wall_y_end = left_wall_y_end,
+
+                piston_width = right_wall_x-left_wall_x,
+                piston_height = 40,
+                piston_x = left_wall_x,
+                piston_y = 170,
+
+                cylinder = {
+                    draw : function () {
+
+                        ctx.strokeStyle = crankCaseColor;
+                        ctx.fillStyle = crankCaseColor;
+                        ctx.lineWidth = 4;
+
+                        // cylinder walls
+
+                        ctx.beginPath();
+                        ctx.moveTo(left_wall_x,left_wall_y_start);
+                        ctx.lineTo(left_wall_x,left_wall_y_end);
+                        ctx.lineTo(right_wall_x,right_wall_y_end);
+                        ctx.lineTo(right_wall_x,right_wall_y_start);
+                        ctx.stroke();
+
+                        // ctx.beginPath();
+                        // ctx.moveTo(20,200);
+                        // ctx.bezierCurveTo(20,100,200,100,200,200);
+                        // ctx.moveTo(800,200);
+                        // ctx.bezierCurveTo(800,100,200,100,200,200);
+                        // ctx.stroke();
+
+                        // source & sink walls
+
+                        ctx.beginPath();
+                        ctx.strokeStyle = crankCaseColor;
+                        ctx.fillStyle = crankCaseColor;
+                        ctx.lineWidth = 4;
+                        ctx.moveTo(left_wall_x,left_wall_y_end);
+                        ctx.lineTo(left_wall_x,left_wall_y_end+50);
+                        ctx.lineTo(right_wall_x,left_wall_y_end+50);
+                        ctx.lineTo(right_wall_x,left_wall_y_end);
+                        ctx.stroke();
+
+                        // source and sink
+
+                        ctx.beginPath();
+                        ctx.fillStyle="#D50000";    // red
+                        if(step2>step){
+                            // if(step>-41 && step<20){
+                            ctx.fillStyle="#D50000";    // red
+                            // }
+                            // else if(step>20 && step<41){
+                            //     ctx.fillStyle="#FFFFFF";    // white
+                            // }
+                        }
+                        else if(step>step2){
+                            if(step<41&& step>-20){
+                                ctx.fillStyle="#2962FF";     // blue
+                            }
+                            else{
+                                ctx.fillStyle="#FFFFFF";    // white
+                            }
+                        }
+
+                        ctx.fillRect(left_wall_x+2,left_wall_y_end+2,piston_width-4,50-4);
+                        ctx.stroke();
+
+                        // piston
+
+                        ctx.beginPath();
+                        ctx.fillStyle = pistonColor;
+                        ctx.fillRect(piston_x+2,piston_y-step,piston_width-4,piston_height);
+                        ctx.stroke();
+
+                        // cavity
+
+                        ctx.beginPath();
+                        ctx.fillStyle = test;
+                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,95+step);
+                        ctx.stroke();
+
+                        // connecting rod
+
+                        ctx.beginPath();
+                        ctx.strokeStyle = pistonColor;
+                        ctx.fillStyle = pistonColor;
+                        ctx.lineWidth = 10;
+                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-step);
+                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-step-70);
+                        ctx.lineCap = 'round';
+                        ctx.stroke();
+
+                        if(flag===false){
+
+
+                            step=Math.round(400*Math.sin(x))/6;
+                            x=x+0.005;
+                            step2=Math.round(400*Math.sin(x))/6;
+                            console.log(step);
+
+                        }
+                    }
+                };
+
+            (function animloop(){
+                requestAnimFrame(animloop);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                cylinder.draw();
+            })();
+
+        }
 
         function P2(input){
 
@@ -497,7 +632,7 @@
     </script>
 </head>
 
-<body onload="varinit();draw0();dummy();">
+<body onload="varinit();draw0();dummy();start1();">
 <!-- Defining Container for Simulation -->
 <noscript>
     The simulation requires JavaScript to be enabled.
