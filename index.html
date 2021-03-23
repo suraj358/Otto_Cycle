@@ -198,14 +198,14 @@
 
                         ctx.beginPath();
                         ctx.fillStyle = pistonColor;
-                        ctx.fillRect(piston_x+2,piston_y-P2,piston_width-4,piston_height);
+                        ctx.fillRect(piston_x+2,piston_y-step,piston_width-4,piston_height);
                         ctx.stroke();
 
                         // cavity
 
                         ctx.beginPath();
                         ctx.fillStyle = test;
-                        ctx.fillRect(piston_x+2,piston_y-P2+piston_height,piston_width-4,90+P2);
+                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
                         ctx.stroke();
 
                         // connecting rod
@@ -214,23 +214,20 @@
                         ctx.strokeStyle = pistonColor;
                         ctx.fillStyle = pistonColor;
                         ctx.lineWidth = 10;
-                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-P2);
-                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-P2-70);
+                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-step);
+                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-step-70);
                         ctx.lineCap = 'round';
                         ctx.stroke();
 
-                         // source and sink
 
-                        ctx.beginPath();
-                        ctx.fillStyle="blue";    // red
-                            if(step2>P2){
-                            if(P2>-41 && P2<20){
+                            if(step2>step){
+                            if(step>-41 && step<20){
                                 ctx.fillStyle="#D50000";    // red
                                 ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
-                            else if(P2>20 && P2<41){
+                            else if(step>20 && step<41){
                                 ctx.fillStyle="blue";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
@@ -238,7 +235,7 @@
                             }
                         }
 
-                        else if(P2>step2){
+                        else if(step>step2){
                             if(step<41&& step>-20){
                                 ctx.fillStyle="#2962FF";     // blue
                                 ctx.fillText("Isentropic Compression", 35, 40);
@@ -256,18 +253,18 @@
 
                         ctx.beginPath();
                         ctx.fillStyle = pistonColor;
-                        ctx.fillRect(piston_x+2,piston_y-P2,piston_width-4,piston_height);
+                        ctx.fillRect(piston_x+2,piston_y-step,piston_width-4,piston_height);
                         ctx.stroke();
 
                         // cavity
 
                         ctx.beginPath();
                         ctx.fillStyle = test;
-                        ctx.fillRect(piston_x+2,piston_y-P2+piston_height,piston_width-4,90+P2);
+                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
                         ctx.stroke();
 
                         if(flag===false) {
-                            P2 = Math.round(150 * Math.sin(x)) /3;
+                            step = Math.round(150 * Math.sin(x)) /3;
                             x = x + 0.003;
                         }
                         //
@@ -368,21 +365,21 @@
 
                         ctx.beginPath();
                         ctx.fillStyle="blue";    // red
-                        if(step2>P2){
-                            if(P2>-41 && P2<20){
+                        if(step2>step){
+                            if(step>-41 && step<20){
                                 ctx.fillStyle="#D50000";    // red
                                 ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
-                            else if(P2>20 && P2<41){
+                            else if(step>20 && step<41){
                                 ctx.fillStyle="blue";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
 
                             }
                         }
-                        else if(P2>step2){
+                        else if(step>step2){
                             if(step<41&& step>-20){
                                 ctx.fillStyle="#2962FF";     // blue
                                 ctx.fillText("Isentropic Compression", 35, 40);
@@ -400,14 +397,14 @@
 
                         ctx.beginPath();
                         ctx.fillStyle = pistonColor;
-                        ctx.fillRect(piston_x+2,piston_y-P2,piston_width-4,piston_height);
+                        ctx.fillRect(piston_x+2,piston_y-step,piston_width-4,piston_height);
                         ctx.stroke();
 
                         // cavity
 
                         ctx.beginPath();
                         ctx.fillStyle = test;
-                        ctx.fillRect(piston_x+2,piston_y-P2+piston_height,piston_width-4,90+P2);
+                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
                         ctx.stroke();
 
 
@@ -418,15 +415,15 @@
                         ctx.strokeStyle = pistonColor;
                         ctx.fillStyle = pistonColor;
                         ctx.lineWidth = 10;
-                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-P2);
-                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-P2-70);
+                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-step);
+                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-step-70);
                         ctx.lineCap = 'round';
                         ctx.stroke();
 
                         if(flag===false){
 
 
-                            P2=Math.round(400*Math.sin(x))/6;
+                            step=Math.round(400*Math.sin(x))/6;
                             x=x+0.005;
                             step2=Math.round(400*Math.sin(x))/6;
                             console.log(step);
@@ -535,8 +532,8 @@
             // setting trace point coordinate arrays to empty on change of link length
 
             //Cold reservoir T1
-            $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();P1();});
-            $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();P1();});
+            $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();});
+            $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();});
             $( "#l1spinner" ).on( "change", function() {varchange(); } );
 
             // Hot reservoir T2
