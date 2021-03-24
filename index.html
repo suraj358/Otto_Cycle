@@ -270,7 +270,7 @@
                 };
 
             (function animloop() {
-                requestAnimFrame(animloop);
+                timeOut = requestAnimFrame(animloop);
                 ctx.clearRect(0, 0, 800, 500);
                 cylinder.draw0();
             })();
@@ -283,6 +283,7 @@
         var step2=0;
         var flag=true;
         var x=0;
+        var timeOut;
         function start1() {
 
             window.requestAnimFrame = (function(){
@@ -520,32 +521,41 @@
             // setting trace point coordinate arrays to empty on change of link length
 
             //Cold reservoir T1
-            $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();});
-            $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();});
+            $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);});
+            $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
             $( "#l1spinner" ).on( "change", function() {varchange(); } );
 
             // Hot reservoir T2
 
-            $( "#l2slider" ).on(  "slide",  function( e, ui ) {$('#l2spinner').spinner("value",ui.value);varupdate();});
-            $( "#l2spinner" ).on( "spin",   function( e, ui ) {$('#l2slider').slider("value",ui.value);varupdate();});
+            $( "#l2slider" ).on(  "slide",  function( e, ui ) {$('#l2spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
+            $( "#l2spinner" ).on( "spin",   function( e, ui ) {$('#l2slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
             $( "#l2spinner" ).on( "change", function() {varchange() } );
 
             // Volume v1
 
-            $( "#l3slider" ).on(  "slide",  function( e, ui ) {$('#l3spinner').spinner("value",ui.value);varupdate();});
-            $( "#l3spinner" ).on( "spin",   function( e, ui ) {$('#l3slider').slider("value",ui.value);varupdate();});
+            $( "#l3slider" ).on(  "slide",  function( e, ui ) {$('#l3spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
+            $( "#l3spinner" ).on( "spin",   function( e, ui ) {$('#l3slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
             $( "#l3spinner" ).on( "change", function() {varchange() } );
 
             //Volume v2
 
-            $( "#l4slider" ).on(  "slide",  function( e, ui ) {$('#l4spinner').spinner("value",ui.value);varupdate();});
-            $( "#l4spinner" ).on( "spin",   function( e, ui ) {$('#l4slider').slider("value",ui.value);varupdate();});
+            $( "#l4slider" ).on(  "slide",  function( e, ui ) {$('#l4spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
+            $( "#l4spinner" ).on( "spin",   function( e, ui ) {$('#l4slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
             $( "#l4spinner" ).on( "change", function() {varchange() } );
 
             // Heat capacity Ratio r
 
-            $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();});
-            $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();});
+            $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
+            $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
+});
             $( "#l5spinner" ).on( "change", function() {varchange() } );
 
             P1 = $('#l1spinner').spinner('value');
@@ -589,7 +599,7 @@
     </script>
 </head>
 
-<body onload="varinit();draw0();dummy();start1();">
+<body onload="varinit();draw0();dummy();">
 <!-- Defining Container for Simulation -->
 <noscript>
     The simulation requires JavaScript to be enabled.
