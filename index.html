@@ -161,7 +161,7 @@
                 piston_width = right_wall_x-left_wall_x,
                 piston_height = 40,
                 piston_x = left_wall_x,
-                piston_y = 170,
+                piston_y = 180,
 
                 cylinder = {
                     draw0 : function () {
@@ -201,25 +201,25 @@
                         ctx.lineCap = 'round';
                         ctx.stroke();
 
-                                // ctx.fillStyle="blue";    // red
+                                ctx.fillStyle="blue";    // red
                             if(step2>step){
-                            if(step>-41 && step<20){
+                            if(step>-41 && step<0){
                                 ctx.fillStyle="blue";    // red
                                 ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
-                            else if(step>20 && step<41){
-                                // ctx.fillStyle="blue";    // white
+                            else if(step>0 && step<41)
+                            {
+                                // ctx.fillStyle="red";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
-
                             }
                         }
 
                         else if(step>step2){
                             if(step<41&& step>-20){
-                                ctx.fillStyle="#D50000";    // red
+                                ctx.fillStyle="red";    // red
                                 ctx.fillText("Isentropic Compression", 35, 40);
                             }
                             else{
@@ -352,25 +352,25 @@
 
                         // source and sink
 
-                        ctx.beginPath();
-                                // ctx.fillStyle="blue";    // red
+                        ctx.fillStyle="blue";    // red
                         if(step2>step){
-                            if(step>-41 && step<20){
+                            if(step>-41 && step<0){
                                 ctx.fillStyle="blue";    // red
                                 ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
-                            else if(step>20 && step<41){
-                                // ctx.fillStyle="blue";    // white
+                            else if(step>0 && step<41)
+                            {
+                                // ctx.fillStyle="red";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
-
                             }
                         }
+
                         else if(step>step2){
                             if(step<41&& step>-20){
-                                ctx.fillStyle="#D50000";    // red
+                                ctx.fillStyle="red";    // red
                                 ctx.fillText("Isentropic Compression", 35, 40);
                             }
                             else{
@@ -381,6 +381,7 @@
 
                         ctx.fillRect(left_wall_x+2,left_wall_y_end+2,piston_width-4,50-4);
                         ctx.stroke();
+
 
                         // piston
 
