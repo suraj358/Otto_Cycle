@@ -200,26 +200,27 @@
                         ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-step-70);
                         ctx.lineCap = 'round';
                         ctx.stroke();
+                        ctx.closePath();
 
+                        ctx.fillStyle="blue";    // red
+                        if(step2>step){
+                            if(step>40 && step2<0){
                                 ctx.fillStyle="blue";    // red
-                            if(step2>step){
-                            if(step>-41 && step<0){
-                                ctx.fillStyle="blue";    // red
-                                ctx.font = "25px Georgia";
+                                ctx.font = "20px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
-                            else if(step>0 && step<41)
+                            else if(step2>0 && step<40)
                             {
-                                // ctx.fillStyle="red";    // white
+                                // ctx.fillStyle="blue";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
                             }
                         }
 
                         else if(step>step2){
-                            if(step<41&& step>-20){
-                                ctx.fillStyle="red";    // red
+                            if(step2<40&& step>0){
+                                // ctx.fillStyle="red";    // red
                                 ctx.fillText("Isentropic Compression", 35, 40);
                             }
                             else{
@@ -230,6 +231,7 @@
 
                         ctx.fillRect(left_wall_x+2,left_wall_y_end+2,piston_width-4,50-4);
                         ctx.stroke();
+                        ctx.closePath();
 
                         // piston
 
@@ -246,10 +248,12 @@
                         ctx.stroke();
 
                         if(flag===false) {
-                            step = Math.round(150 * Math.sin(x)) /3;
-                            x = x + 0.003;
-                            step2=Math.round(400*Math.sin(x))/6;
-
+                            // step = Math.round(400 * Math.sin(x))/ 3;
+                            // x = x + 0.003;
+                            // step2=Math.round(400*Math.sin(x))/5;
+                            step=Math.round(200*Math.sin(x))/3;
+                            x=x+0.003;
+                            step2=Math.round(300*Math.sin(x))/6;
                         }
                         //
                         //
@@ -313,7 +317,7 @@
                 piston_width = right_wall_x-left_wall_x,
                 piston_height = 40,
                 piston_x = left_wall_x,
-                piston_y = 170,
+                piston_y = 180,
 
                 cylinder = {
                     draw : function () {
@@ -349,18 +353,19 @@
                         ctx.lineTo(right_wall_x,left_wall_y_end+50);
                         ctx.lineTo(right_wall_x,left_wall_y_end);
                         ctx.stroke();
+                        ctx.closePath();
 
                         // source and sink
-
+                        ctx.beginPath();
                         ctx.fillStyle="blue";    // red
                         if(step2>step){
-                            if(step>-41 && step<0){
+                            if(step2>40 && step<0){
                                 ctx.fillStyle="blue";    // red
                                 ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
-                            else if(step>0 && step<41)
+                            else if(step>0 && step2<40)
                             {
                                 // ctx.fillStyle="red";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
@@ -369,19 +374,19 @@
                         }
 
                         else if(step>step2){
-                            if(step<41&& step>-20){
+                            if(step<40&& step2>0){
                                 ctx.fillStyle="red";    // red
                                 ctx.fillText("Isentropic Compression", 35, 40);
                             }
                             else{
-                                ctx.fillStyle="red";    // white
+                                // ctx.fillStyle="red";    // white
                                 ctx.fillText("Constant volume heat Rejection", 10, 40);
                             }
                         }
 
                         ctx.fillRect(left_wall_x+2,left_wall_y_end+2,piston_width-4,50-4);
                         ctx.stroke();
-
+                        ctx.closePath();
 
                         // piston
 
@@ -410,14 +415,24 @@
                         ctx.lineCap = 'round';
                         ctx.stroke();
 
-                        if(flag===false){
+                        // if(flag===false){
+                        //
+                        //
+                        //     step=Math.round(150*Math.sin(x))/6;
+                        //     x=x+0.003;
+                        //     step2=Math.round(400*Math.sin(x))/6;
+                        //     console.log(step);
+                        //     console.log(start1);
+                        //
+                        // }
 
-
-                            step=Math.round(400*Math.sin(x))/6;
+                        if(flag===false) {
+                            // step = Math.round(400 * Math.sin(x))/ 3;
+                            // x = x + 0.003;
+                            // step2=Math.round(400*Math.sin(x))/5;
+                            step=Math.round(200*Math.sin(x))/3;
                             x=x+0.003;
-                            step2=Math.round(400*Math.sin(x))/6;
-                            console.log(step);
-
+                            step2=Math.round(300*Math.sin(x))/6;
                         }
                     }
                 };
@@ -524,39 +539,39 @@
             //Cold reservoir T1
             $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);});
             $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l1spinner" ).on( "change", function() {varchange(); } );
 
             // Hot reservoir T2
 
             $( "#l2slider" ).on(  "slide",  function( e, ui ) {$('#l2spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l2spinner" ).on( "spin",   function( e, ui ) {$('#l2slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l2spinner" ).on( "change", function() {varchange() } );
 
             // Volume v1
 
             $( "#l3slider" ).on(  "slide",  function( e, ui ) {$('#l3spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l3spinner" ).on( "spin",   function( e, ui ) {$('#l3slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l3spinner" ).on( "change", function() {varchange() } );
 
             //Volume v2
 
             $( "#l4slider" ).on(  "slide",  function( e, ui ) {$('#l4spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l4spinner" ).on( "spin",   function( e, ui ) {$('#l4slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l4spinner" ).on( "change", function() {varchange() } );
 
             // Heat capacity Ratio r
 
             $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-});
+            });
             $( "#l5spinner" ).on( "change", function() {varchange() } );
 
             P1 = $('#l1spinner').spinner('value');
