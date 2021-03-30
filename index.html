@@ -161,7 +161,7 @@
                 piston_width = right_wall_x-left_wall_x,
                 piston_height = 40,
                 piston_x = left_wall_x,
-                piston_y = 180,
+                piston_y = 170,
 
                 cylinder = {
                     draw0 : function () {
@@ -200,27 +200,26 @@
                         ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-step-70);
                         ctx.lineCap = 'round';
                         ctx.stroke();
-                        ctx.closePath();
 
-                        ctx.fillStyle="blue";    // red
-                        if(step2>step){
-                            if(step>40 && step2<0){
                                 ctx.fillStyle="blue";    // red
-                                ctx.font = "20px Georgia";
+                            if(step2>step){
+                            if(step>-41 && step<20){
+                                ctx.fillStyle="blue";    // red
+                                ctx.font = "25px Georgia";
                                 ctx.fillText("Isentropic Expansion", 45, 40);
                                 ctx.fillText("Q2", 130, 375);
                             }
-                            else if(step2>0 && step<40)
-                            {
+                            else if(step>20 && step<41){
                                 // ctx.fillStyle="blue";    // white
                                 ctx.fillText("Constant volume combustion", 15, 40);
                                 ctx.fillText("Q1", 130, 375);
+
                             }
                         }
 
                         else if(step>step2){
-                            if(step2<40&& step>0){
-                                // ctx.fillStyle="red";    // red
+                            if(step<41&& step>-20){
+                                ctx.fillStyle="#D50000";    // red
                                 ctx.fillText("Isentropic Compression", 35, 40);
                             }
                             else{
@@ -231,7 +230,6 @@
 
                         ctx.fillRect(left_wall_x+2,left_wall_y_end+2,piston_width-4,50-4);
                         ctx.stroke();
-                        ctx.closePath();
 
                         // piston
 
@@ -243,17 +241,21 @@
                         // cavity
 
                         ctx.beginPath();
-                        ctx.fillStyle = test;
+                        ctx.fillStyle = test;                        if(flag===false) {
+                            step = Math.round(150 * Math.sin(x)) /3;
+                            x = x + 0.003;
+                            step2=Math.round(400*Math.sin(x))/6;
+
+                        }
+
                         ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
                         ctx.stroke();
 
                         if(flag===false) {
-                            // step = Math.round(400 * Math.sin(x))/ 3;
-                            // x = x + 0.003;
-                            // step2=Math.round(400*Math.sin(x))/5;
-                            step=Math.round(200*Math.sin(x))/3;
-                            x=x+0.003;
-                            step2=Math.round(300*Math.sin(x))/6;
+                            step = Math.round(150 * Math.sin(x)) /3;
+                            x = x + 0.003;
+                            step2=Math.round(400*Math.sin(x))/5;
+
                         }
                         //
                         //
@@ -288,162 +290,152 @@
         var flag=true;
         var x=0;
         var timeOut;
-        function start1() {
-
-            window.requestAnimFrame = (function(){
-                return window.requestAnimationFrame     ||
-                    window.webkitRequestAnimationFrame  ||
-                    window.mozRequestAnimationFrame     ||
-                    window.oRequestAnimationFrame       ||
-                    window.msRequestAnimationFrame      ||
-                    function( callback ) {
-                        window.setTimeout(callback, 1000 / 60);
-                    };
-            })();
-
-            var canvas = document.getElementById('simscreen'),
-                ctx = canvas.getContext('2d'),
-                crankCaseColor = '#9EA18C',
-                pistonColor = '#676482',
-                test = '#f4eeff',
-                left_wall_x = 50,
-                left_wall_y_start = 50,
-                left_wall_y_end = 300,
-
-                right_wall_x = 250,
-                right_wall_y_start = left_wall_y_start,
-                right_wall_y_end = left_wall_y_end,
-
-                piston_width = right_wall_x-left_wall_x,
-                piston_height = 40,
-                piston_x = left_wall_x,
-                piston_y = 180,
-
-                cylinder = {
-                    draw : function () {
-
-                        ctx.strokeStyle = crankCaseColor;
-                        ctx.fillStyle = crankCaseColor;
-                        ctx.lineWidth = 4;
-
-                        // cylinder walls
-
-                        ctx.beginPath();
-                        ctx.moveTo(left_wall_x,left_wall_y_start+60);
-                        ctx.lineTo(left_wall_x,left_wall_y_end);
-                        ctx.lineTo(right_wall_x,right_wall_y_end);
-                        ctx.lineTo(right_wall_x,right_wall_y_start+60);
-                        ctx.stroke();
-
-                        // ctx.beginPath();
-                        // ctx.moveTo(20,200);
-                        // ctx.bezierCurveTo(20,100,200,100,200,200);
-                        // ctx.moveTo(800,200);
-                        // ctx.bezierCurveTo(800,100,200,100,200,200);
-                        // ctx.stroke();
-
-                        // source & sink walls
-
-                        ctx.beginPath();
-                        ctx.strokeStyle = crankCaseColor;
-                        ctx.fillStyle = crankCaseColor;
-                        ctx.lineWidth = 4;
-                        ctx.moveTo(left_wall_x,left_wall_y_end);
-                        ctx.lineTo(left_wall_x,left_wall_y_end+50);
-                        ctx.lineTo(right_wall_x,left_wall_y_end+50);
-                        ctx.lineTo(right_wall_x,left_wall_y_end);
-                        ctx.stroke();
-                        ctx.closePath();
-
-                        // source and sink
-                        ctx.beginPath();
-                        ctx.fillStyle="blue";    // red
-                        if(step2>step){
-                            if(step2>40 && step<0){
-                                ctx.fillStyle="blue";    // red
-                                ctx.font = "25px Georgia";
-                                ctx.fillText("Isentropic Expansion", 45, 40);
-                                ctx.fillText("Q2", 130, 375);
-                            }
-                            else if(step>0 && step2<40)
-                            {
-                                // ctx.fillStyle="red";    // white
-                                ctx.fillText("Constant volume combustion", 15, 40);
-                                ctx.fillText("Q1", 130, 375);
-                            }
-                        }
-
-                        else if(step>step2){
-                            if(step<40&& step2>0){
-                                ctx.fillStyle="red";    // red
-                                ctx.fillText("Isentropic Compression", 35, 40);
-                            }
-                            else{
-                                // ctx.fillStyle="red";    // white
-                                ctx.fillText("Constant volume heat Rejection", 10, 40);
-                            }
-                        }
-
-                        ctx.fillRect(left_wall_x+2,left_wall_y_end+2,piston_width-4,50-4);
-                        ctx.stroke();
-                        ctx.closePath();
-
-                        // piston
-
-                        ctx.beginPath();
-                        ctx.fillStyle = pistonColor;
-                        ctx.fillRect(piston_x+2,piston_y-step,piston_width-4,piston_height);
-                        ctx.stroke();
-
-                        // cavity
-
-                        ctx.beginPath();
-                        ctx.fillStyle = test;
-                        ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
-                        ctx.stroke();
 
 
-
-                        // connecting rod
-
-                        ctx.beginPath();
-                        ctx.strokeStyle = pistonColor;
-                        ctx.fillStyle = pistonColor;
-                        ctx.lineWidth = 10;
-                        ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-step);
-                        ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-step-70);
-                        ctx.lineCap = 'round';
-                        ctx.stroke();
-
-                        // if(flag===false){
-                        //
-                        //
-                        //     step=Math.round(150*Math.sin(x))/6;
-                        //     x=x+0.003;
-                        //     step2=Math.round(400*Math.sin(x))/6;
-                        //     console.log(step);
-                        //     console.log(start1);
-                        //
-                        // }
-
-                        if(flag===false) {
-                            // step = Math.round(400 * Math.sin(x))/ 3;
-                            // x = x + 0.003;
-                            // step2=Math.round(400*Math.sin(x))/5;
-                            step=Math.round(200*Math.sin(x))/3;
-                            x=x+0.003;
-                            step2=Math.round(300*Math.sin(x))/6;
-                        }
-                    }
-                };
-
-            (function animloop(){
-                requestAnimFrame(animloop);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                cylinder.draw();
-            })();
-
-        }
+        // function start1() {
+        //
+        //     window.requestAnimFrame = (function(){
+        //         return window.requestAnimationFrame     ||
+        //             window.webkitRequestAnimationFrame  ||
+        //             window.mozRequestAnimationFrame     ||
+        //             window.oRequestAnimationFrame       ||
+        //             window.msRequestAnimationFrame      ||
+        //             function( callback ) {
+        //                 window.setTimeout(callback, 1000 / 60);
+        //             };
+        //     })();
+        //
+        //     var canvas = document.getElementById('simscreen'),
+        //         ctx = canvas.getContext('2d'),
+        //         crankCaseColor = '#9EA18C',
+        //         pistonColor = '#676482',
+        //         test = '#f4eeff',
+        //         left_wall_x = 50,
+        //         left_wall_y_start = 50,
+        //         left_wall_y_end = 300,
+        //
+        //         right_wall_x = 250,
+        //         right_wall_y_start = left_wall_y_start,
+        //         right_wall_y_end = left_wall_y_end,
+        //
+        //         piston_width = right_wall_x-left_wall_x,
+        //         piston_height = 40,
+        //         piston_x = left_wall_x,
+        //         piston_y = 170,
+        //
+        //         cylinder = {
+        //             draw : function () {
+        //
+        //                 ctx.strokeStyle = crankCaseColor;
+        //                 ctx.fillStyle = crankCaseColor;
+        //                 ctx.lineWidth = 4;
+        //
+        //                 // cylinder walls
+        //
+        //                 ctx.beginPath();
+        //                 ctx.moveTo(left_wall_x,left_wall_y_start+60);
+        //                 ctx.lineTo(left_wall_x,left_wall_y_end);
+        //                 ctx.lineTo(right_wall_x,right_wall_y_end);
+        //                 ctx.lineTo(right_wall_x,right_wall_y_start+60);
+        //                 ctx.stroke();
+        //
+        //                 // ctx.beginPath();
+        //                 // ctx.moveTo(20,200);
+        //                 // ctx.bezierCurveTo(20,100,200,100,200,200);
+        //                 // ctx.moveTo(800,200);
+        //                 // ctx.bezierCurveTo(800,100,200,100,200,200);
+        //                 // ctx.stroke();
+        //
+        //                 // source & sink walls
+        //
+        //                 ctx.beginPath();
+        //                 ctx.strokeStyle = crankCaseColor;
+        //                 ctx.fillStyle = crankCaseColor;
+        //                 ctx.lineWidth = 4;
+        //                 ctx.moveTo(left_wall_x,left_wall_y_end);
+        //                 ctx.lineTo(left_wall_x,left_wall_y_end+50);
+        //                 ctx.lineTo(right_wall_x,left_wall_y_end+50);
+        //                 ctx.lineTo(right_wall_x,left_wall_y_end);
+        //                 ctx.stroke();
+        //
+        //                 // source and sink
+        //
+        //                 ctx.beginPath();
+        //                         ctx.fillStyle="blue";    // red
+        //                 if(step2>step){
+        //                     if(step>-41 && step<20){
+        //                         ctx.fillStyle="blue";    // red
+        //                         ctx.font = "25px Georgia";
+        //                         ctx.fillText("Isentropic Expansion", 45, 40);
+        //                         ctx.fillText("Q2", 130, 375);
+        //                     }
+        //                     else if(step>20 && step<41){
+        //                         // ctx.fillStyle="blue";    // white
+        //                         ctx.fillText("Constant volume combustion", 15, 40);
+        //                         ctx.fillText("Q1", 130, 375);
+        //
+        //                     }
+        //                 }
+        //                 else if(step>step2){
+        //                     if(step<41&& step>-20){
+        //                         ctx.fillStyle="#D50000";    // red
+        //                         ctx.fillText("Isentropic Compression", 35, 40);
+        //                     }
+        //                     else{
+        //                         ctx.fillStyle="red";    // white
+        //                         ctx.fillText("Constant volume heat Rejection", 10, 40);
+        //                     }
+        //                 }
+        //
+        //                 ctx.fillRect(left_wall_x+2,left_wall_y_end+2,piston_width-4,50-4);
+        //                 ctx.stroke();
+        //
+        //                 // piston
+        //
+        //                 ctx.beginPath();
+        //                 ctx.fillStyle = pistonColor;
+        //                 ctx.fillRect(piston_x+2,piston_y-step,piston_width-4,piston_height);
+        //                 ctx.stroke();
+        //
+        //                 // cavity
+        //
+        //                 ctx.beginPath();
+        //                 ctx.fillStyle = test;
+        //                 ctx.fillRect(piston_x+2,piston_y-step+piston_height,piston_width-4,90+step);
+        //                 ctx.stroke();
+        //
+        //
+        //
+        //                 // connecting rod
+        //
+        //                 ctx.beginPath();
+        //                 ctx.strokeStyle = pistonColor;
+        //                 ctx.fillStyle = pistonColor;
+        //                 ctx.lineWidth = 10;
+        //                 ctx.moveTo((right_wall_x + left_wall_x)/2,piston_y-step);
+        //                 ctx.lineTo((right_wall_x + left_wall_x)/2,piston_y-step-70);
+        //                 ctx.lineCap = 'round';
+        //                 ctx.stroke();
+        //
+        //                 if(flag===false){
+        //
+        //
+        //                     step=Math.round(400*Math.sin(x))/6;
+        //                     x=x+0.003;
+        //                     step2=Math.round(400*Math.sin(x))/6;
+        //                     console.log(step);
+        //
+        //                 }
+        //             }
+        //         };
+        //
+        //     (function animloop(){
+        //         requestAnimFrame(animloop);
+        //         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //         cylinder.draw();
+        //     })();
+        //
+        // }
 
 
 
@@ -539,39 +531,39 @@
             //Cold reservoir T1
             $( "#l1slider" ).on(  "slide",  function( e, ui ) {$('#l1spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);});
             $( "#l1spinner" ).on( "spin",   function( e, ui ) {$('#l1slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l1spinner" ).on( "change", function() {varchange(); } );
 
             // Hot reservoir T2
 
             $( "#l2slider" ).on(  "slide",  function( e, ui ) {$('#l2spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l2spinner" ).on( "spin",   function( e, ui ) {$('#l2slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l2spinner" ).on( "change", function() {varchange() } );
 
             // Volume v1
 
             $( "#l3slider" ).on(  "slide",  function( e, ui ) {$('#l3spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l3spinner" ).on( "spin",   function( e, ui ) {$('#l3slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l3spinner" ).on( "change", function() {varchange() } );
 
             //Volume v2
 
             $( "#l4slider" ).on(  "slide",  function( e, ui ) {$('#l4spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l4spinner" ).on( "spin",   function( e, ui ) {$('#l4slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l4spinner" ).on( "change", function() {varchange() } );
 
             // Heat capacity Ratio r
 
             $( "#l5slider" ).on(  "slide",  function( e, ui ) {$('#l5spinner').spinner("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l5spinner" ).on( "spin",   function( e, ui ) {$('#l5slider').slider("value",ui.value);varupdate();cancelAnimationFrame(timeOut);
-            });
+});
             $( "#l5spinner" ).on( "change", function() {varchange() } );
 
             P1 = $('#l1spinner').spinner('value');
